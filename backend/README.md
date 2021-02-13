@@ -66,28 +66,269 @@ One note before you delve into your tasks: for each endpoint you are expected to
 8. Create a POST endpoint to get questions to play the quiz. This endpoint should take category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions. 
 9. Create error handlers for all expected errors including 400, 404, 422 and 500. 
 
-REVIEW_COMMENT
-```
-This README is missing documentation of your endpoints. Below is an example for your endpoint to get all categories. Please use it as a reference for creating your documentation and resubmit your code. 
+# API_DOCUMENTATION
 
-Endpoints
-GET '/categories'
-GET ...
-POST ...
-DELETE ...
+## Introduction
+This Api support Trivia Game App with resources Questions and Categories.
+Origin:-http://127.0.0.1:5000
+Authentication-key:no authentication key required
+## Errors
+### status codes
+1-404 Resource not found 
+2-400 Bad request
+3-422 unprocessible 
+
+### Response
+  `{
+      "success":False,
+      "code":404,
+      "message":"Resource Not Found "
+  }`
+
+  `{
+    "success":False,
+    "code":422,
+    "message":"unprocessible"
+  }`
+  `{
+      "success":False,
+      "code":400,
+      "message":"Bad Requst "
+    }`
+## Endpoints
+* GET '/categories'
+* GET '/questions'
+* GET '/categories/id/questions'
+* POST '/questions'
+* POST '/quizzes'
+* DELETE '/questions/id'
 
 GET '/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
 - Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
-{'1' : "Science",
+`{'1' : "Science",
 '2' : "Art",
 '3' : "Geography",
 '4' : "History",
 '5' : "Entertainment",
-'6' : "Sports"}
+'6' : "Sports"}`
 
-```
+GET '/questions'
+- Fetches questions that belong to a certain page, and each page contain 10 questions 
+- Request Arguments: page ,determine the number of the page to be fetched and it defaults to (1) if it is not provided.
+- Returns: An object with  5 keys :
+1- success:- its value will be true for success response 
+2- questions:- a list of questions 
+3- total_questions:-total number of questions 
+4- categories:- list of all categories 
+5- current_category:- the current category 
+
+{
+    "categories": {
+        "1": "Science",
+        "2": "Art",
+        "3": "Geography",
+        "4": "History",
+        "5": "Entertainment",
+        "6": "Sports"
+    },
+    "current_category": "All",
+    "questions": [
+        {
+            "answer": "Maya Angelou",
+            "category": 4,
+            "difficulty": 2,
+            "id": 5,
+            "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+        },
+        {
+            "answer": "Muhammad Ali",
+            "category": 4,
+            "difficulty": 1,
+            "id": 9,
+            "question": "What boxer's original name is Cassius Clay?"
+        },
+        {
+            "answer": "Apollo 13",
+            "category": 5,
+            "difficulty": 4,
+            "id": 2,
+            "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+        },
+        {
+            "answer": "Tom Cruise",
+            "category": 5,
+            "difficulty": 4,
+            "id": 4,
+            "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+        },
+        {
+            "answer": "Edward Scissorhands",
+            "category": 5,
+            "difficulty": 3,
+            "id": 6,
+            "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+        },
+        {
+            "answer": "Brazil",
+            "category": 6,
+            "difficulty": 3,
+            "id": 10,
+            "question": "Which is the only team to play in every soccer World Cup tournament?"
+        },
+        {
+            "answer": "Uruguay",
+            "category": 6,
+            "difficulty": 4,
+            "id": 11,
+            "question": "Which country won the first ever soccer World Cup in 1930?"
+        },
+        {
+            "answer": "George Washington Carver",
+            "category": 4,
+            "difficulty": 2,
+            "id": 12,
+            "question": "Who invented Peanut Butter?"
+        },
+        {
+            "answer": "Lake Victoria",
+            "category": 3,
+            "difficulty": 2,
+            "id": 13,
+            "question": "What is the largest lake in Africa?"
+        },
+        {
+            "answer": "The Palace of Versailles",
+            "category": 3,
+            "difficulty": 3,
+            "id": 14,
+            "question": "In which royal palace would you find the Hall of Mirrors?"
+        }
+    ],
+    "success": true,
+    "total_questions": 20
+}
+
+DELETE '/questions/id'
+- Delete a certain question, with id equal to that provided in the url
+- Request Arguments: None
+- Returns: An object with a single key, `success` that its value will be `True` in case of success response.
+`{"success":True}`
+
+POST '/questions'
+- Post a new question .
+- Request Arguments: 
+1-question:string represents the question 
+2-answer:string represents the answer to that question
+3-difficulty:integar between (1,5) 
+4-category:integer represent id of the category that this question belong to .
+- Returns: an object with the following keys:
+1-success
+2-id:-represent id of the newly created question 
+
+`
+{
+  "success":True,
+  "id":25
+}
+`
+
+POST '/questions'
+- search for questions that contain search term  .
+- Request Arguments: 
+1-searchTerm:-string represent searchTerm that is being looked.
+- Returns: an object with the following keys:
+1-success
+2- questions:- a list of questions 
+3- total_questions:-total number of questions 
+4- current_category:- the current category 
+
+`
+{
+    "current_category": "All",
+    "questions": [
+        {
+            "answer": "Maya Angelou",
+            "category": 4,
+            "difficulty": 2,
+            "id": 5,
+            "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+        },
+        {
+            "answer": "Edward Scissorhands",
+            "category": 5,
+            "difficulty": 3,
+            "id": 6,
+            "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+        }
+    ],
+    "success": true,
+    "total_questions": 20
+}
+`
+
+GET '/categories/id/questions'
+- get all the question that belong to a certain category 
+- Request Arguments: 
+1-id:represent id of the category
+- Returns: an object with the following keys:
+1-success
+2- questions:- a list of questions 
+3- total_questions:-total number of questions 
+4- current_category:- the current category 
+
+`
+{
+    "current_category": "Science",
+    "questions": [
+        {
+            "answer": "The Liver",
+            "category": 1,
+            "difficulty": 4,
+            "id": 20,
+            "question": "What is the heaviest organ in the human body?"
+        },
+        {
+            "answer": "Alexander Fleming",
+            "category": 1,
+            "difficulty": 3,
+            "id": 21,
+            "question": "Who discovered penicillin?"
+        },
+        {
+            "answer": "Blood",
+            "category": 1,
+            "difficulty": 4,
+            "id": 22,
+            "question": "Hematology is a branch of medicine involving the study of what?"
+        }
+    ],
+    "success": true,
+    "total_questions": 20
+}
+`
+POST '/quizzes'
+- get a random question that belong to certain category and must be diffrent from the previous one
+- Request Arguments: 
+1-quiz_category:-represent the current category
+2-previous_questions:-list represent the previos fetched questions in the current category
+- Returns: an object with the following keys:
+1-success
+2- questions:- represent random question
+
+`
+{
+    "question": {
+        "answer": "The Liver",
+        "category": 1,
+        "difficulty": 4,
+        "id": 20,
+        "question": "What is the heaviest organ in the human body?"
+    },
+    "success": true
+}
+`
 
 
 ## Testing
