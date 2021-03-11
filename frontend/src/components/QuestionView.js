@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import '../stylesheets/App.css';
-import Question from './Question';
 import Search from './Search';
+import {QuestionList} from './QuestionList'
 import $ from 'jquery';
 
 class QuestionView extends Component {
@@ -135,17 +135,11 @@ class QuestionView extends Component {
           <Search submitSearch={this.submitSearch}/>
         </div>
         <div className="questions-list">
-          <h2>Questions</h2>
-          {this.state.questions.map((q, ind) => (
-            <Question
-              key={q.id}
-              question={q.question}
-              answer={q.answer}
-              category={this.state.categories[q.category]} 
-              difficulty={q.difficulty}
-              questionAction={this.questionAction(q.id)}
-            />
-          ))}
+          <QuestionList
+            questions = {this.state.questions}
+            categories = {this.state.categories}
+            questionAction = {this.questionAction}
+          />
           <div className="pagination-menu">
             {this.createPagination()}
           </div>
